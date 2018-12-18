@@ -8,3 +8,5 @@ Angular:
 - cd src\app\employees
 - ng g c employee
 - ng g c employee-list
+- ng g s customers/shared/employee
+- ng g cl customers/shared/employee --type=model
