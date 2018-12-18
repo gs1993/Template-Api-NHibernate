@@ -28,6 +28,10 @@ namespace Api
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseCors(builder => builder
+                .WithOrigins(Consts.ClientAppUrl)
+                .AllowAnyHeader());
+
             app.UseMiddleware<ExceptionHandler>();
             app.UseMvc();
         }
