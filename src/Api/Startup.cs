@@ -30,7 +30,8 @@ namespace Api
         {
             app.UseCors(builder => builder
                 .WithOrigins(Consts.ClientAppUrl)
-                .AllowAnyHeader());
+                .AllowAnyHeader()
+                .AllowAnyMethod());
 
             app.UseMiddleware<ExceptionHandler>();
             app.UseMvc();
