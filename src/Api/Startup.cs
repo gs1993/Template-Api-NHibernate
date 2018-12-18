@@ -1,9 +1,9 @@
-﻿using Logic.Repositories;
+﻿using Api.Utils;
+using Logic.Repositories;
 using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection.Emit;
 
 namespace Api
 {
