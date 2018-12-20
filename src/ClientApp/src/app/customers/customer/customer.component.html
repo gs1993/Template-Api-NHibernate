@@ -1,3 +1,13 @@
-<p>
-  customer works!
-</p>
+<form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+  <div class="form-group">
+    <label>Name</label>
+    <input name="Name" #Name="ngModel" [(ngModel)] = "service.formData.Name" class="form-control" required>
+    <div class="validation-error" *ngIf="Name.invalid && Name.touched">This field is required</div>
+    <label>Email</label>
+    <input name="Email" #Email="ngModel" [(ngModel)] = "service.formData.Email" class="form-control" required>
+    <div class="validation-error" *ngIf="Email.invalid && Email.touched">This field is required</div>
+  </div>
+  <div class="form-group">
+    <button type="submit" [disabled]="form.invalid" class="btn btn-lg btn-block">Submit</button>
+  </div>
+</form>
