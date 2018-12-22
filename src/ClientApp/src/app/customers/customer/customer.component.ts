@@ -27,13 +27,26 @@ export class CustomerComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.insertRecord(form);
+    if (form.value.Id != null) {
+      this.update(form);
+    } else {
+      this.insert(form);
+    }
   }
 
-  insertRecord(form: NgForm) {
+  insert(form: NgForm) {
     this.service.postCustomer(form.value).subscribe(res => {
       this.toastr.success('Inserted successfuly', 'Customer Added');
       this.resetForm(form);
+      this.service.getCustomers();
+    });
+  }
+
+  update(form: NgForm) {
+    this.service.updateCustomer(form.value).subscribe(res => {
+      this.toastr.success('Customer ' + form.value.Name + ' Updated', 'Customer Updated');
+      this.resetForm(form);
+      this.service.getCustomers();
     });
   }
 }
