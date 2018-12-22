@@ -19,6 +19,7 @@ namespace Logic.Entities.CustomerEntities
         public virtual CustomerEmail Email => (CustomerEmail)_email;
 
         public virtual CustomerStatus Status { get; protected set; }
+        public virtual bool IsActive { get; protected set; }
 
         private decimal _moneySpent;
         public virtual Money MoneySpent
@@ -41,6 +42,7 @@ namespace Logic.Entities.CustomerEntities
             _email = email ?? throw new ArgumentNullException(nameof(email));
             MoneySpent = (Money) 0;
             Status = CustomerStatus.Regular;
+            IsActive = true;
         }
 
         public virtual bool AlreadyPurchased(Movie movie) => PurchasedMovies.Any(x => x.Movie == movie && x.ExpirationDate.IsExpired);
@@ -48,6 +50,9 @@ namespace Logic.Entities.CustomerEntities
         public virtual void PurchaseMovie(Movie movie)
         {
             if (AlreadyPurchased(movie))
+                throw new InvalidOperationException();
+
+            if (!IsActive)
                 throw new InvalidOperationException();
 
             ExpirationDate expirationDate = movie.GetExpirationDate();
@@ -75,6 +80,18 @@ namespace Logic.Entities.CustomerEntities
                 return Result.Fail("Customer must spend at least 100 dollars spent during the last year");
 
             Status = Status.Promote((ExpirationDate)DateTime.UtcNow.AddYears(1));
+            return Result.Ok();
+        }
+
+        public virtual Result Deactivate()
+        {
+            if (Status.IsAdvanced)
+                return Result.Fail("Cannot delete advanced customer");
+
+            if (!IsActive)
+                return Result.Fail("The customer is already deactivated");
+
+            IsActive = false;
             return Result.Ok();
         }
     }

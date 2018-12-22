@@ -103,7 +103,7 @@ namespace Api.Controllers
                 return Error(customerNameResult.Error);
 
             Customer customer = _customerRepository.GetById(id);
-            if (customer == null)
+            if (customer == null || !customer.IsActive)
                 return Error("Invalid customer id: " + id);
 
             customer.Name = customerNameResult.Value;
@@ -120,7 +120,7 @@ namespace Api.Controllers
                 return Error("Invalid movie id: " + movieId);
 
             Customer customer = _customerRepository.GetById(id);
-            if (customer == null)
+            if (customer == null || !customer.IsActive)
                 return Error("Invalid customer id: " + id);
             
             if (customer.AlreadyPurchased(movie))
@@ -136,10 +136,28 @@ namespace Api.Controllers
         public IActionResult PromoteCustomer(long id)
         {
             Customer customer = _customerRepository.GetById(id);
-            if (customer == null)
+            if (customer == null || !customer.IsActive)
                 return Error("Invalid customer id: " + id);
 
             var result = customer.Promote();
+            if (result.IsFailure)
+                return Error(result.Error);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult DeactivateCustomer(long id)
+        {
+            Customer customer = _customerRepository.GetById(id);
+            if (customer == null)
+                return Error("Invalid customer id: " + id);
+
+            if (!customer.IsActive)
+                return Error("The customer has already been deleted");
+
+            var result = customer.Deactivate();
             if (result.IsFailure)
                 return Error(result.Error);
 

@@ -19,4 +19,8 @@ export class CustomerListComponent implements OnInit {
   populateForm(customer: Customer) {
     this.service.formData = new CustomerFormData(customer.Name, customer.Email, customer.Id);
   }
+
+  delete(id: number) {
+    this.service.deleteCustomer(id);
+  }
 }

@@ -12,6 +12,7 @@ namespace Logic.Mappings
             Map(x => x.Name).CustomType<string>().Access.CamelCaseField(Prefix.Underscore);
             Map(x => x.Email).CustomType<string>().Access.CamelCaseField(Prefix.Underscore);
             Map(x => x.MoneySpent).CustomType<decimal>().Access.CamelCaseField(Prefix.Underscore);
+            Map(x => x.IsActive).CustomType<bool>();
 
             Component(x => x.Status, y =>
             {

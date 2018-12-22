@@ -50,4 +50,14 @@ export class CustomerService {
   populateForm(customer: Customer) {
     this.formData = new CustomerFormData(customer.Name, customer.Email, customer.Id);
   }
+
+  deleteCustomer(id: Number) {
+    this.http.delete(this.apiUrl + id)
+    .toPromise().then((response: ApiResponse) => {
+      this.getCustomers();
+      this.toastr.success('The customer has been deleted');
+    }, msg => {
+      console.log(msg);
+    });
+  }
 }

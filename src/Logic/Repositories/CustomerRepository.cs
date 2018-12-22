@@ -14,7 +14,9 @@ namespace Logic.Repositories
 
         public IReadOnlyList<Customer> GetList()
         {
-            return _unitOfWork.Query<Customer>().ToList();
+            return _unitOfWork.Query<Customer>()
+                .Where(c => c.IsActive)
+                .ToList();
         }
 
         public Customer GetByEmail(string email)

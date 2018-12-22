@@ -2,6 +2,6 @@
   <tr *ngFor = "let c of service.list">
     <td (click)="populateForm(c)">{{c.Name}}</td>
     <td (click)="populateForm(c)">{{c.Email}}</td>
-    <td><button class="btn btn-sm btn-outline-danger">X</button></td>
+    <td><button (click)="delete(c.Id)" class="btn btn-sm btn-outline-danger">X</button></td>
   </tr>
 </table>
